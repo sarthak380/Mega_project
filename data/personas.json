@@ -1,0 +1,14 @@
+[
+  {
+    "name": "Curious Customer",
+    "style": "explore"
+  },
+  {
+    "name": "Busy Customer",
+    "style": "direct"
+  },
+  {
+    "name": "Confused Customer",
+    "style": "confused"
+  }
+]
