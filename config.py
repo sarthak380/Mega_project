@@ -5,4 +5,5 @@ MAX_TURNS = 6
 CHATBOT_TYPES = [
     "ChatGPT",
     "HTTPBot"
+    "Chit"
 ]

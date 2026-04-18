@@ -39,3 +39,5 @@ def run_simulation(bot_type="ChatGPT"):
         message="Tell me more about menu"
 
     return conversation,bot_type
+
+#python -m streamlit run ui/dashboard.py
