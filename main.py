@@ -1,43 +1,59 @@
-import json
-from config import MAX_TURNS
-from chatbot.chatgpt_api import ChatGPTBot
-from chatbot.http_bot import HTTPBot
+import logging
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
-def load_data():
+from app.config import settings
+from app.database import engine, Base
+from app.api import auth, projects, chatbots, evaluations, reports
 
-    with open("data/personas.json") as f:
-        personas=json.load(f)
+# Setup Logging
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+    handlers=[
+        logging.StreamHandler()
+    ]
+)
+logger = logging.getLogger(__name__)
 
-    with open("data/tasks.json") as f:
-        tasks=json.load(f)
+# Create Database tables automatically on startup (perfect for local sqlite fallback)
+try:
+    logger.info("Initializing database and compiling schemas...")
+    Base.metadata.create_all(bind=engine)
+    logger.info("Database schemas compiled successfully.")
+except Exception as e:
+    logger.critical(f"Database table creation failed: {e}")
 
-    return personas,tasks
+app = FastAPI(
+    title=settings.PROJECT_NAME,
+    version="1.0.0",
+    openapi_url=f"{settings.API_V1_STR}/openapi.json"
+)
 
-def run_simulation(bot_type="ChatGPT"):
+# Set CORS origins
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"], # In production, configure specific domains e.g. ["http://localhost:3000"]
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-    personas,tasks=load_data()
+# Include Routers
+app.include_router(auth.router, prefix=settings.API_V1_STR)
+app.include_router(projects.router, prefix=settings.API_V1_STR)
+app.include_router(chatbots.router, prefix=settings.API_V1_STR)
+app.include_router(evaluations.router, prefix=settings.API_V1_STR)
+app.include_router(reports.router, prefix=settings.API_V1_STR)
 
-    persona=personas[0]
+@app.get("/", tags=["health"])
+def health_check():
+    return {
+        "status": "healthy",
+        "service": settings.PROJECT_NAME,
+        "api_prefix": settings.API_V1_STR
+    }
 
-    task=tasks[0]
-
-    if bot_type=="ChatGPT":
-        bot=ChatGPTBot()
-    else:
-        bot=HTTPBot()
-
-    conversation=[]
-
-    message="Hello"
-
-    for i in range(MAX_TURNS):
-
-        reply=bot.reply(message)
-
-        conversation.append((message,reply))
-
-        message="Tell me more about menu"
-
-    return conversation,bot_type
-
-#python -m streamlit run ui/dashboard.py
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
