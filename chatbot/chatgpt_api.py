@@ -21,6 +21,7 @@ from groq import Groq
 client = Groq(api_key="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")
 
 class ChatGPTBot:
+    {
 
     def reply(self, message):
 
@@ -33,3 +34,4 @@ class ChatGPTBot:
         )
 
         return response.choices[0].message.content
+    }
