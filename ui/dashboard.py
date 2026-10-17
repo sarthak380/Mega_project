@@ -117,11 +117,28 @@ if menu == "Chat Simulation":
                     file_name=report
                 )
 
+<<<<<<< HEAD
 if menu == "Analytics":
     data = [
         {"bot": "ChatGPT (Multi-Agent)", "success_rate": 95, "avg_turns": 4},
         {"bot": "HTTP Restaurant Bot", "success_rate": 75, "avg_turns": 6},
         {"bot": "Educational Consultant Bot", "success_rate": 85, "avg_turns": 5}
+=======
+        with open(report,"rb") as f:
+
+            st.download_button(
+                "Download PDF Report",
+                f,
+                file_name="chatbot_report.pdf"
+            )
+
+
+if menu=="Analytics":
+
+    data=[
+        {"bot":"ChatGPT","success_rate":95,"avg_turns":4},
+        {"bot":"HTTPBot","success_rate":75,"avg_turns":6}
+>>>>>>> ff1bca476cd72de217a20808e59659cabfd0ed0f
     ]
 
     show_analytics(data)
