@@ -1,14 +1,26 @@
 [
   {
-    "name": "Curious Customer",
-    "style": "explore"
+    "name": "Frustrated Customer",
+    "biography": "A customer who gets easily frustrated by complex menus and slow service. They prefer direct answers and want the order completed with minimal extra explanation.",
+    "mood_tone": "frustrated",
+    "task_execution_style": "one-by-one",
+    "exploration_style": "does-not-explore",
+    "communication_style": "direct and impatient"
   },
   {
-    "name": "Busy Customer",
-    "style": "direct"
+    "name": "Happy Customer",
+    "biography": "A cheerful customer who enjoys exploring menu options and chatting with staff. They are polite, positive, and open to suggestions.",
+    "mood_tone": "enthusiastic",
+    "task_execution_style": "all-at-once",
+    "exploration_style": "explores",
+    "communication_style": "friendly and upbeat"
   },
   {
     "name": "Confused Customer",
-    "style": "confused"
+    "biography": "A customer who gets easily overwhelmed by choices and needs clarification on menu items, options, and processes. They ask many questions and prefer step-by-step guidance.",
+    "mood_tone": "confused",
+    "task_execution_style": "one-by-one",
+    "exploration_style": "explores",
+    "communication_style": "questioning and seeking clarification"
   }
 ]
